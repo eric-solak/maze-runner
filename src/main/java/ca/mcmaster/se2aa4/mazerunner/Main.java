@@ -28,20 +28,24 @@ public class Main {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
             while ((line = reader.readLine()) != null) {
+                String lineOutput = "";
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
-                        logger.trace("WALL ");
+                        lineOutput += "WALL ";
                     } else if (line.charAt(idx) == ' ') {
-                        logger.trace("PASS ");
+                        lineOutput += "PASS ";
                     }
                 }
-                logger.trace(System.lineSeparator());
+                logger.info(lineOutput);
+                // logger.info(System.lineSeparator());
             }
         } catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
+            logger.error("/!\\ An error has occured /!\\", e);
         }
         logger.info("**** Computing path");
         logger.info("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
+    
+    
     }
 }
