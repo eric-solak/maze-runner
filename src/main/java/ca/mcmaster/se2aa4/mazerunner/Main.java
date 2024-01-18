@@ -6,9 +6,9 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.lang.module.Configuration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,34 +18,62 @@ public class Main {
 
     public static void main(String[] args) {
         logger.info("** Starting Maze Runner");
+        String output = null;
+        
+        try {
+            Configuration config = configure(args);
+            Maze maze = new Maze(config.filePath);
+            
+            if (config.mazePath == null) {
+                output = maze.findPath();
+            } else {
+                output = maze.testPath();
+            }
+            
+        } catch (ParseException | IOException pe) {
+            System.err.println(pe.getMessage());
+            System.exit(1);
+        }
+
+        logger.info("**** Computing path");
+        System.out.println(output);
+        logger.info("** End of MazeRunner");
+    }
+    private static Configuration configure(String args[]) throws ParseException, IOException {
         Options options = new Options();
         options.addOption("i", true, "Input maze file");
+        options.addOption("p", true, "Input maze path");
         CommandLineParser parser = new DefaultParser();
-        try {
-            CommandLine cmd = parser.parse(options, args);
-            String filePath = cmd.getOptionValue("i");
-            logger.info("**** Reading the maze from file " + filePath);
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String lineOutput = "";
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        lineOutput += "WALL ";
-                    } else if (line.charAt(idx) == ' ') {
-                        lineOutput += "PASS ";
-                    }
-                }
-                logger.info(lineOutput);
-                // logger.info(System.lineSeparator());
-            }
-        } catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\", e);
-        }
-        logger.info("**** Computing path");
-        logger.info("PATH NOT COMPUTED");
-        logger.info("** End of MazeRunner");
-    
-    
+        CommandLine cmd = parser.parse(options, args);
+
+
+        String filePath = cmd.getOptionValue("i");
+        String mazePath = cmd.getOptionValue("p");
+        readMaze(filePath);
+
+        return new Configuration(filePath, mazePath);
     }
+    private record Configuration(String filePath, String mazePath) {
+        Configuration {
+            if (filePath == null)
+                throw new RuntimeException("File not found");
+        }
+    }
+    private static void readMaze(String filePath) throws IOException {
+        logger.info("**** Reading the maze from file " + filePath);
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String lineOutput = "";
+            for (int idx = 0; idx < line.length(); idx++) {
+                if (line.charAt(idx) == '#') {
+                    lineOutput += "WALL ";
+                } else if (line.charAt(idx) == ' ') {
+                    lineOutput += "PASS ";
+                }
+            }
+            logger.info(lineOutput);
+        }
+    }
+
 }
