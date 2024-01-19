@@ -25,7 +25,7 @@ public class Main {
             Maze maze = new Maze(config.filePath);
             
             if (config.mazePath == null) {
-                output = maze.findPath();
+                output = maze.traverseMaze();
             } else {
                 output = maze.testPath(config.mazePath);
             }

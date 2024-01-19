@@ -41,17 +41,39 @@ public class Maze {
         }
 
     }
-    private int findEntry(int[][] maze) {
-        return 8; // Works for only "/examples/small.maz.txt"
+    private int[] findEntry(int[][] maze) {
+        int[] entrance  = new int[2];
+        entrance[0] = 8; entrance[1] = 0;
+        return entrance; // Works for only "/examples/small.maz.txt"
     }
-    public String findPath() throws IOException {
+
+    enum Cardinal { NORTH, EAST, SOUTH, WEST }
+    public String traverseMaze() throws IOException {
         buildMaze(filePath);
         StringBuilder path = new StringBuilder();
+
+        int[] position = findEntry(maze);
+        int direction = Cardinal.EAST.ordinal();
+        boolean atExit = false;
+        System.out.println(maze[0].length);
+        while (!atExit){
+            path.append(rightHand(position, direction)); // Append the next position to the output string
+            position[1]++; // Move positions (In this case, only forward)
+            if (position[1] == maze[0].length) // If the solver has reached the right-most position (where the exit is)
+                atExit = true;
+
+        }
+
         return path.toString();
+    }
+    private char rightHand(int[] position, int direction) throws IOException {
+        return 'F';
+
     }
 
     public String testPath(String path) throws IOException {
-
         return "a";
     }
+
+
 }
