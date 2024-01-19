@@ -27,7 +27,7 @@ public class Main {
             if (config.mazePath == null) {
                 output = maze.findPath();
             } else {
-                output = maze.testPath();
+                output = maze.testPath(config.mazePath);
             }
             
         } catch (ParseException | IOException pe) {
@@ -49,7 +49,7 @@ public class Main {
 
         String filePath = cmd.getOptionValue("i");
         String mazePath = cmd.getOptionValue("p");
-        readMaze(filePath);
+
 
         return new Configuration(filePath, mazePath);
     }
@@ -59,21 +59,6 @@ public class Main {
                 throw new RuntimeException("File not found");
         }
     }
-    private static void readMaze(String filePath) throws IOException {
-        logger.info("**** Reading the maze from file " + filePath);
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String lineOutput = "";
-            for (int idx = 0; idx < line.length(); idx++) {
-                if (line.charAt(idx) == '#') {
-                    lineOutput += "WALL ";
-                } else if (line.charAt(idx) == ' ') {
-                    lineOutput += "PASS ";
-                }
-            }
-            logger.info(lineOutput);
-        }
-    }
+
 
 }
