@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Maze {
     private final String filePath;
     private static int[][] maze;
-
+    enum Cardinal { NORTH, EAST, SOUTH, WEST }
     public Maze(String filePath) {
         this.filePath = filePath;
     }
@@ -47,7 +47,6 @@ public class Maze {
         return entrance; // Works for only "/examples/small.maz.txt"
     }
 
-    enum Cardinal { NORTH, EAST, SOUTH, WEST }
     public String traverseMaze() throws IOException {
         buildMaze(filePath);
         StringBuilder path = new StringBuilder();
@@ -57,8 +56,55 @@ public class Maze {
         boolean atExit = false;
         System.out.println(maze[0].length);
         while (!atExit){
+            char nextMove = rightHand(position, direction);
             path.append(rightHand(position, direction)); // Append the next position to the output string
-            position[1]++; // Move positions (In this case, only forward)
+
+            if (nextMove == 'F') { // Move positions
+                switch (direction) {
+                    case 0: // NORTH
+                        position[0]--;
+                        break;
+                    case 1: // EAST
+                        position[1]++;
+                        break;
+                    case 2: // SOUTH
+                        position[0]++;
+                        break;
+                    case 3: // WEST
+                        position[1]--;
+                        break;
+                }
+            }
+
+            else { // Update direction
+                switch (direction) {
+                    case 0: // NORTH
+                        if (nextMove == 'L')
+                            direction = Cardinal.WEST.ordinal();
+                        if (nextMove == 'R')
+                            direction = Cardinal.EAST.ordinal();
+                        break;
+                    case 1: // EAST
+                        if (nextMove == 'L')
+                            direction = Cardinal.NORTH.ordinal();
+                        if (nextMove == 'R')
+                            direction = Cardinal.SOUTH.ordinal();
+                        break;
+                    case 2: // SOUTH
+                        if (nextMove == 'L')
+                            direction = Cardinal.EAST.ordinal();
+                        if (nextMove == 'R')
+                            direction = Cardinal.WEST.ordinal();
+                        break;
+                    case 3: // WEST
+                        if (nextMove == 'L')
+                            direction = Cardinal.SOUTH.ordinal();
+                        if (nextMove == 'R')
+                            direction = Cardinal.NORTH.ordinal();
+                        break;
+                }
+            }
+
             if (position[1] == maze[0].length) // If the solver has reached the right-most position (where the exit is)
                 atExit = true;
 
@@ -71,7 +117,7 @@ public class Maze {
 
     }
 
-    public String testPath(String path) throws IOException {
+    public String testPath(String path) throws IOException { // check if current position is not a wall
         return "a";
     }
 
