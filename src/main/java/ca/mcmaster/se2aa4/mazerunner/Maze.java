@@ -41,6 +41,7 @@ public class Maze {
         }
 
     }
+
     private int[] findEntry(int[][] maze) {
         int[] entrance  = new int[2];
         entrance[0] = 8; entrance[1] = 0;
@@ -54,64 +55,32 @@ public class Maze {
         int[] position = findEntry(maze);
         int direction = Cardinal.EAST.ordinal();
         boolean atExit = false;
-        System.out.println(maze[0].length);
         while (!atExit){
             char nextMove = rightHand(position, direction);
             path.append(rightHand(position, direction)); // Append the next position to the output string
 
-            if (nextMove == 'F') { // Move positions
-                switch (direction) {
-                    case 0: // NORTH
-                        position[0]--;
-                        break;
-                    case 1: // EAST
-                        position[1]++;
-                        break;
-                    case 2: // SOUTH
-                        position[0]++;
-                        break;
-                    case 3: // WEST
-                        position[1]--;
-                        break;
-                }
-            }
-
-            else { // Update direction
-                switch (direction) {
-                    case 0: // NORTH
-                        if (nextMove == 'L')
-                            direction = Cardinal.WEST.ordinal();
-                        if (nextMove == 'R')
-                            direction = Cardinal.EAST.ordinal();
-                        break;
-                    case 1: // EAST
-                        if (nextMove == 'L')
-                            direction = Cardinal.NORTH.ordinal();
-                        if (nextMove == 'R')
-                            direction = Cardinal.SOUTH.ordinal();
-                        break;
-                    case 2: // SOUTH
-                        if (nextMove == 'L')
-                            direction = Cardinal.EAST.ordinal();
-                        if (nextMove == 'R')
-                            direction = Cardinal.WEST.ordinal();
-                        break;
-                    case 3: // WEST
-                        if (nextMove == 'L')
-                            direction = Cardinal.SOUTH.ordinal();
-                        if (nextMove == 'R')
-                            direction = Cardinal.NORTH.ordinal();
-                        break;
-                }
+            switch(nextMove) {
+                case 'F': // Move positions
+                    switch (direction) {
+                        case 0: position[0]--; break; // NORTH
+                        case 1: position[1]++; break; // EAST
+                        case 2: position[0]++; break; // SOUTH
+                        case 3: position[1]--; break;// WEST
+                    }
+                    break;
+                case 'L': // Update direction
+                    direction = (direction + 3) % 4; break; // Left turn
+                case 'R': // Update direction
+                    direction = (direction + 1) % 4; break; // Right turn
             }
 
             if (position[1] == maze[0].length) // If the solver has reached the right-most position (where the exit is)
                 atExit = true;
-
         }
 
         return path.toString();
     }
+
     private char rightHand(int[] position, int direction) throws IOException {
         return 'F';
 
