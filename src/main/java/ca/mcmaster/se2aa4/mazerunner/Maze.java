@@ -15,11 +15,14 @@ public class Maze {
 
     public static void buildMaze(String filePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        String firstLine = reader.readLine();
-        int x = firstLine.length();
-        maze = new int[x][x]; // Works for files that contain only square mazes
+        int rows = (int) reader.lines().count(); // Count the number of lines in the file
 
-        for (int i = 0; i < x; i++) { // Process the first line
+        reader = new BufferedReader(new FileReader(filePath)); // Reopen the file to read it again
+        String firstLine = reader.readLine();
+        int cols = firstLine.length();
+        maze = new int[rows][cols]; // Works for files that contain only square mazes
+
+        for (int i = 0; i < cols; i++) { // Process the first line
             if (firstLine.charAt(i) == '#') { // wall represents "1"
                 maze[0][i] = 1;
             } else if (firstLine.charAt(i) == ' ') { // pass represents "0"
@@ -39,13 +42,6 @@ public class Maze {
             }
             j++;
         }
-
-    }
-
-    private int[] findEntry(int[][] maze) {
-        int[] entrance  = new int[2];
-        entrance[0] = 8; entrance[1] = 0;
-        return entrance; // Works for only "/examples/small.maz.txt"
     }
 
     public String traverseMaze() throws IOException {
@@ -54,7 +50,6 @@ public class Maze {
 
         int[] position = findEntry(maze);
         int direction = Cardinal.EAST.ordinal();
-        boolean atExit = false;
         while (position[1] < maze[1].length - 1) {
             char nextMove = rightHand(position, direction);
 
@@ -102,10 +97,20 @@ public class Maze {
             else {
                 path.append(nextMove);
             }
-
         }
 
         return path.toString();
+    }
+
+    private int[] findEntry(int[][] maze) {
+        int[] entrance  = new int[2];
+        for (int i = 0; i < maze[0].length; i++) {
+            if (maze[i][0] == 0) {
+                entrance[0] = i;
+            }
+        }
+
+        return entrance;
     }
 
     private char rightHand(int[] position, int direction) throws IOException {
