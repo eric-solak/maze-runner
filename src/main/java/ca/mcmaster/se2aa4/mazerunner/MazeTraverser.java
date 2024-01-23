@@ -1,55 +1,21 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
-public class Maze {
-    private final String filePath;
-    private static int[][] maze;
-    enum Cardinal { NORTH, EAST, SOUTH, WEST }
-    public Maze(String filePath) {
-        this.filePath = filePath;
-    }
+public class MazeTraverser {
+    private final MazeBuilder mazeBuilder;
 
-    public static void buildMaze(String filePath) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        int rows = (int) reader.lines().count(); // Count the number of lines in the file
-
-        reader = new BufferedReader(new FileReader(filePath)); // Reopen the file to read it again
-        String firstLine = reader.readLine();
-        int cols = firstLine.length();
-        maze = new int[rows][cols]; // Works for files that contain only square mazes
-
-        for (int i = 0; i < cols; i++) { // Process the first line
-            if (firstLine.charAt(i) == '#') { // wall represents "1"
-                maze[0][i] = 1;
-            } else if (firstLine.charAt(i) == ' ') { // pass represents "0"
-                maze[0][i] = 0;
-            }
-        }
-        String line;
-        int j = 0;
-        while ((line = reader.readLine()) != null) { // Process the remaining lines
-            int idx;
-            for (idx = 0; idx < line.length(); idx++) {
-                if (line.charAt(idx) == '#') { // wall represents "1"
-                    maze[j+1][idx] = 1;
-                } else if (line.charAt(idx) == ' ') { // pass represents "0"
-                    maze[j+1][idx] = 0;
-                }
-            }
-            j++;
-        }
+    public MazeTraverser(MazeBuilder mazeBuilder) {
+        this.mazeBuilder = mazeBuilder;
     }
 
     public String traverseMaze() throws IOException {
-        buildMaze(filePath);
+        mazeBuilder.buildMaze();
+        int[][] maze = mazeBuilder.getMaze();
+        int[] position = mazeBuilder.getEntry();
         StringBuilder path = new StringBuilder();
 
-        int[] position = findEntry(maze);
-        int direction = Cardinal.EAST.ordinal();
+        int direction = 1;
         while (position[1] < maze[1].length - 1) {
             char nextMove = rightHand(position, direction);
 
@@ -101,18 +67,6 @@ public class Maze {
 
         return path.toString();
     }
-
-    private int[] findEntry(int[][] maze) {
-        int[] entrance  = new int[2];
-        for (int i = 0; i < maze[0].length; i++) {
-            if (maze[i][0] == 0) {
-                entrance[0] = i;
-            }
-        }
-
-        return entrance;
-    }
-
     private char rightHand(int[] position, int direction) throws IOException {
         int x,y; // Coordinates of the next position
 
@@ -154,13 +108,11 @@ public class Maze {
 
     private boolean isMoveValid(int x, int y) {
         // '0' represents PASS, '1' represents WALL
-            // True if the position is PASS, False otherwise.
-        return maze[x][y] == 0;
+        // True if the position is PASS, False otherwise.
+        return mazeBuilder.getMaze()[x][y] == 0;
     }
 
     public String testPath(String path) throws IOException { // check if current position is not a wall
         return "a";
     }
-
-
 }
