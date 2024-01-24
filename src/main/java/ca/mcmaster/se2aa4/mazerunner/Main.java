@@ -22,12 +22,14 @@ public class Main {
         
         try {
             Configuration config = configure(args);
-            Maze maze = new Maze(config.filePath);
-            
+            MazeBuilder mazeBuilder = new MazeBuilder(config.filePath);
+            mazeBuilder.buildMaze();
+
+            MazeTraverser mazeTraverser = new MazeTraverser(mazeBuilder);
             if (config.mazePath == null) {
-                output = maze.traverseMaze();
+                output = mazeTraverser.traverseMaze();
             } else {
-                output = maze.testPath(config.mazePath);
+                output = mazeTraverser.testPath(config.mazePath);
             }
             
         } catch (ParseException | IOException pe) {
