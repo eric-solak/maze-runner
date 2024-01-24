@@ -78,7 +78,7 @@ public class MazeTraverser {
             return "correct path";
         }
 
-        return path.toString();
+        return toFactorial(path.toString());
     }
 
     // Helper method to move forward based on the current direction
@@ -186,4 +186,38 @@ public class MazeTraverser {
         return newPath.toString();
     }
 
+    // Changes the format of the text to its factorized form
+        // e.g. FFF = 3F
+    private String toFactorial(String path) {
+        StringBuilder newPath = new StringBuilder();
+        int i = 0;
+        char next = 0;
+        while (i < path.length() - 1) {
+            int multiplier = 1;
+            next = path.charAt(i + 1);
+            char current = path.charAt(i);
+
+            while (current == next && i < path.length() - 2) {
+                i++;
+                multiplier+=1;
+                next = path.charAt(i+1);
+
+            }
+
+            String output = String.valueOf(current);
+            // If multiplier < 3, append the original characters
+                // since 2F = FF (lengths are equal), 1F = F (factorized form is larger)
+            if (multiplier < 3) {
+                newPath.append(output.repeat(multiplier));
+            }
+            else {
+                newPath.append(multiplier);
+                newPath.append(output);
+            }
+            i++;
+        }
+
+        newPath.append(next);
+        return newPath.toString();
+    }
 }
