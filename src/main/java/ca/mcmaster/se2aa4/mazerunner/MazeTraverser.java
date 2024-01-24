@@ -147,7 +147,7 @@ public class MazeTraverser {
             // If the character is a digit, take that value into account
                 // check for future digits (and multiply to get the correct value)
                 // then convert to the correct format
-                // e.g. 11F = FFF...FF (11 instances of F)
+                // e.g. 11F = FFF...FF (11 instances of F), 3F = FFF
             if (Character.isDigit(current)) {
                 StringBuilder value = new StringBuilder();
                 while (Character.isDigit(path.charAt(i))) {

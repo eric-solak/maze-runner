@@ -45,7 +45,7 @@ public class MazeBuilder {
 
     private int[] findEntry(int[][] maze) {
         int[] entrance  = new int[2];
-        for (int i = 0; i < maze[0].length; i++) {
+        for (int i = 0; i < maze.length; i++) {
             if (maze[i][0] == 0) {
                 entrance[0] = i;
             }
