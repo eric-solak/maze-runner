@@ -1,16 +1,10 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
-import java.io.*;
-import java.lang.module.Configuration;
-
+import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class Main {
 
@@ -41,7 +35,7 @@ public class Main {
         System.out.println(output);
         logger.info("** End of MazeRunner");
     }
-    private static Configuration configure(String args[]) throws ParseException, IOException {
+    private static Configuration configure(String[] args) throws ParseException, IOException {
         Options options = new Options();
         options.addOption("i", true, "Input maze file");
         options.addOption("p", true, "Input maze path");
