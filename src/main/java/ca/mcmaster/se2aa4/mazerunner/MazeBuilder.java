@@ -8,7 +8,7 @@ import java.io.IOException;
  * MazeBuilder constructs a maze from a file and provides methods
  * to access information about the maze
  */
-public class MazeBuilder {
+public class MazeBuilder implements MazeBuild {
     private static int[][] maze;
     private final String filePath;
 
