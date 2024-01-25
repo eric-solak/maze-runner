@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * MazeBuilder constructs a maze from a file and provides methods
+ * to access information about the maze
+ */
 public class MazeBuilder {
     private static int[][] maze;
     private final String filePath;
@@ -12,7 +16,9 @@ public class MazeBuilder {
         this.filePath = filePath;
     }
 
-    // Copy the contents of the maze file into a 2d array
+    /**
+     * Copy's the maze contents from the file to a 2D array
+     */
     public void buildMaze() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         int rows = (int) reader.lines().count(); // Count the number of lines in the file
@@ -24,10 +30,10 @@ public class MazeBuilder {
 
         // Process the first line
         for (int i = 0; i < cols; i++) {
-            if (firstLine.charAt(i) == '#') { // wall represents "1"
-                maze[0][i] = 1;
-            } else if (firstLine.charAt(i) == ' ') { // pass represents "0"
-                maze[0][i] = 0;
+            if (firstLine.charAt(i) == '#') {
+                maze[0][i] = 1; // Wall
+            } else if (firstLine.charAt(i) == ' ') {
+                maze[0][i] = 0; // Pass
             }
         }
 
@@ -47,7 +53,11 @@ public class MazeBuilder {
         }
     }
 
-    // Finds the entrance of the maze (on the west side) based on the first index of each row.
+    /**
+     * Finds the entrance of the maze (on the west side) based on the first index of each row.
+     * @param maze Maze in 2D array
+     * @return The index of the entrance on the west side
+     */
     private int[] findEntryWest(int[][] maze) {
         int[] entrance  = new int[2];
         for (int i = 0; i < maze.length; i++) {
@@ -59,7 +69,11 @@ public class MazeBuilder {
         return entrance;
     }
 
-    // Finds the entrance of the maze (on the east side) based on the last index of each row.
+    /**
+     * Finds the entrance of the maze (on the east side) based on the last index of each row.
+     * @param maze Maze in 2D array
+     * @return The index of the entrance on the east side
+     */
     private int[] findEntryEast(int[][] maze) {
         int[] entrance  = new int[2];
         for (int i = 0; i < maze.length; i++) {
