@@ -7,4 +7,5 @@ public interface MazeBuild {
     int[][] getMaze();
     int[] getEntryWest();
     int[] getEntryEast();
+
 }
