@@ -6,7 +6,7 @@ import java.io.IOException;
  * MazeTraverser provides methods for traversing a maze based on algorithms
  * and user-inputted paths.
  */
-public class MazeTraverser {
+public class MazeTraverser implements MazeTraversal {
     private final MazeBuilder mazeBuilder;
     private String testPath = "";
     private boolean firstTestComplete = false;
