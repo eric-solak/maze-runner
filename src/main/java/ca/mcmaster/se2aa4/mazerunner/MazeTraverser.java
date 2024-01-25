@@ -10,8 +10,7 @@ public class MazeTraverser {
     private final MazeBuilder mazeBuilder;
     private String testPath = "";
     private boolean firstTestComplete = false;
-
-    private enum Direction {NORTH, EAST, SOUTH, WEST}
+    private enum Direction { NORTH, EAST, SOUTH, WEST }
 
     public MazeTraverser(MazeBuilder mazeBuilder) {
         this.mazeBuilder = mazeBuilder;
@@ -158,11 +157,10 @@ public class MazeTraverser {
         return 'R'; // No other moves are valid, turn right
     }
 
-    // Returns true if the position is PASS, False otherwise.
-        // '0' represents PASS, '1' represents WALL
+
     private boolean isMoveValid(int x, int y) {
         return mazeBuilder.getMaze()[x][y] == 0;
-    }
+    } // '0' represents PASS, '1' represents WALL
 
     /**
      * Tests a user-inputted path
@@ -172,6 +170,9 @@ public class MazeTraverser {
      */
     public String testPath(String path) throws IOException {
         String newPath = toCanonical(path); // Change formatting of path if needed (3F = FFF)
+        if (newPath.equals("incorrect path")) {
+            return "incorrect path";
+        }
 
         testPath = newPath;
         if (traverseMaze().equals("correct path"))
@@ -217,6 +218,8 @@ public class MazeTraverser {
 
             } else if (current == 'F' || current == 'R' || current == 'L') {
                 newPath.append(current);
+            } else if (!Character.isWhitespace(current)) { // incorrect inputs are not accepted
+                return "incorrect path";
             }
 
             i++;
@@ -226,7 +229,7 @@ public class MazeTraverser {
     }
 
     /**
-     * Changes the formatting of text to a facotized form
+     * Changes the formatting of text to a factorized form
      * e.g. FFF...FF (11 instances of F) = 11F , FFF = 3F
      * @param path The original path
      * @return The path in a factorized format
@@ -257,7 +260,7 @@ public class MazeTraverser {
                 newPath.append(multiplier);
                 newPath.append(output);
             }
-
+            newPath.append(" ");
             i++;
         }
 
