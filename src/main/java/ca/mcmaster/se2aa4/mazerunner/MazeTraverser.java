@@ -260,7 +260,7 @@ public class MazeTraverser {
                 newPath.append(multiplier);
                 newPath.append(output);
             }
-
+            newPath.append(" ");
             i++;
         }
 
