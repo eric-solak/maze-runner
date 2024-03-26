@@ -41,7 +41,7 @@ maze-runner % mvn -q clean package
 The starter code assumes the maze file name is the first argument. 
 
 ```
-A1-Template % java -jar target/mazerunner.jar ./examples/small.maz.txt
+maze-runner % java -jar target/mazerunner.jar ./examples/small.maz.txt
 ** Starting Maze Runner
 **** Reading the maze from file ./examples/small.maz.txt
 WALL WALL WALL WALL WALL WALL WALL WALL WALL WALL WALL 
@@ -63,7 +63,7 @@ PATH NOT COMPUTED
 When called on a non-existing file. it prints an error message
 
 ```
-A1-Template % java -jar target/mazerunner.jar ./examples/small.maz.txtd
+maze-runner % java -jar target/mazerunner.jar ./examples/small.maz.txtd
 ** Starting Maze Runner
 **** Reading the maze from file ./examples/small.maz.txtd
 /!\ An error has occured /!\
@@ -102,8 +102,8 @@ maze-runner %
 If a given path is incorrect, the program prints the message `incorrect path` on the standard output.
 
 ```
-maze-runner A1-Template % java -jar target/mazerunner.jar -i ./examples/straight.maz.txt -p 3F
+maze-runner maze-runner % java -jar target/mazerunner.jar -i ./examples/straight.maz.txt -p 3F
 inccorrect path
-maze-runner A1-Template %
+maze-runner maze-runner %
 ```
 
